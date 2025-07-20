@@ -1,0 +1,99 @@
+ </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <!-- Left Doctor -->
+            <div class="doctor-left">
+                <div class="doctor-head">
+                    <div class="doctor-hair"></div>
+                    <div class="doctor-eyes"></div>
+                    <div class="doctor-mask"></div>
+                </div>
+                <div class="doctor-body">
+                    <div class="doctor-shirt"></div>
+                    <div class="stethoscope"></div>
+                </div>
+                <div class="syringe"></div>
+            </div>
+            
+            <!-- Right Doctor -->
+            <div class="doctor-right">
+                <div class="doctor-head">
+                    <div class="doctor-hair"></div>
+                    <div class="doctor-eyes"></div>
+                    <div class="doctor-mask"></div>
+                </div>
+                <div class="doctor-body">
+                    <div class="doctor-shirt"></div>
+                    <div class="stethoscope"></div>
+                </div>
+                <div class="syringe"></div>
+            </div>
+
+            <!-- Corona Virus -->
+            <div class="corona-virus">
+                <div class="corona-spikes"></div>
+            </div>
+
+            <!-- Warning Tapes -->
+            <div class="warning-tape tape-left">COVID-19</div>
+            <div class="warning-tape tape-right">COVID-19</div>
+
+            <div class="header-content">
+                <h1 class="main-title">COVID-19 VACCINATION DASHBOARD</h1>
+                <p class="subtitle">Tracking vaccination stats with a colorful theme 💉</p>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalVaccinated">0</div>
+                <div class="stat-label">Total Vaccinated</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="firstDose">0</div>
+                <div class="stat-label">First Dose</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="secondDose">0</div>
+                <div class="stat-label">Second Dose</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="covaxinCount">0</div>
+                <div class="stat-label">Covaxin</div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-section">
+            <div class="table-header">
+                <h2 class="table-title">Vaccination Records</h2>
+                <input type="text" class="search-box" id="searchInput" placeholder="Search patients...">
+            </div>
+            
+            <div id="loadingState" class="loading">
+                <div class="spinner"></div>
+                <p>Loading vaccination data...</p>
+            </div>
+
+            <table class="vaccination-table" id="vaccinationTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Patient Name</th>
+                        <th>Age</th>
+                        <th>State</th>
+                        <th>Gender</th>
+                        <th>Injection Type</th>
+                        <th>Date</th>
+                        <th>Dose No</th>
+                    </tr>
+                </thead>
+                <tbody id="vaccinationTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>

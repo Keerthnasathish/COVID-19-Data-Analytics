@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>COVID-19 Vaccination Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        .header-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d3748 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            min-height: 350px;
+        }
+
+        /* Corona Band Animation */
+        .corona-band {
+            position: absolute;
+            width: 150px;
+            height: 30px;
+            background: repeating-linear-gradient(
+                45deg,
+                #ffeb3b,
+                #ffeb3b 15px,
+                #e91e63 15px,
+                #e91e63 30px
+            );
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+            animation: slideBand 5s linear infinite;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #e91e63;
+            z-index: 3;
+        }
+
+        @keyframes slideBand {
+            0% {
+                left: -160px;
+                opacity: 0;
+            }
+            50% {
+                left: 50%;
+                opacity: 1;
+                transform: translateX(-50%);
+            }
+            100% {
+                left: 110%;
+                opacity: 0;
+            }
+        }
+
+        /* Left Doctor */
+        .doctor-left {
+            position: absolute;
+            left: 30px;
+            bottom: 0;
+            width: 180px;
+            height: 280px;
+            z-index: 2;
+        }
+
+        .doctor-left .doctor-head {
+            width: 80px;
+            height: 80px;
+            background: #fdbcb4;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 180px;
+            left: 50px;
+        }
+
+        .doctor-left .doctor-hair {
+            width: 70px;
+            height: 40px;
+            background: #4a4a4a;
+            border-radius: 50px 50px 20px 20px;
+            position: absolute;
+            top: -15px;
+            left: 5px;
+        }
+
+        .doctor-left .doctor-mask {
+            width: 60px;
+            height: 25px;
+            background: #4fc3f7;
+            border-radius: 15px;
+            position: absolute;
+            bottom: 20px;
+            left: 10px;
+        }
+
+        .doctor-left .doctor-mask::before,
+        .doctor-left .doctor-mask::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: #333;
+            top: 2px;
+        }
+
+        .doctor-left .doctor-mask::before {
+            left: -8px;
+        }
+
+        .doctor-left .doctor-mask::after {
+            right: -8px;
+        }
+
+        .doctor-left .doctor-eyes {
+            position: absolute;
+            bottom: 35px;
+            left: 20px;
+            width: 40px;
+            height: 10px;
+        }
+
+        .doctor-left .doctor-eyes::before,
+        .doctor-left .doctor-eyes::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #333;
+            border-radius: 50%;
+        }
+
+        .doctor-left .doctor-eyes::before {
+            left: 5px;
+        }
+
+        .doctor-left .doctor-eyes::after {
+            right: 5px;
+        }
+
+        .doctor-left .doctor-body {
+            width: 100px;
+            height: 140px;
+            background: #ffffff;
+            border-radius: 15px 15px 0 0;
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+        }
+
+        .doctor-left .doctor-shirt {
+            width: 80px;
+            height: 120px;
+            background: #4fc3f7;
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+        }
+
+        .doctor-left .stethoscope {
+            width: 4px;
+            height: 60px;
+            background: #333;
+            position: absolute;
+            bottom: 60px;
+            left: 50px;
+            border-radius: 2px;
+        }
+
+        .doctor-left .stethoscope::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -10px;
+            left: -8px;
+        }
+
+        .doctor-left .syringe {
+            position: absolute;
+            bottom: 120px;
+            left: -10px;
+            width: 40px;
+            height: 8px;
+            background: #ffeb3b;
+            border-radius: 4px;
+            transform: rotate(45deg);
+        }
+
+        .doctor-left .syringe::before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 3px;
+            background: #ff5722;
+            left: 40px;
+            top: 2.5px;
+            border-radius: 2px;
+        }
+
+        .doctor-left .syringe::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #666;
+            left: 67px;
+            top: 2px;
+            border-radius: 50%;
+        }
+
+        /* Right Doctor */
+        .doctor-right {
+            position: absolute;
+            right: 30px;
+            bottom: 0;
+            width: 180px;
+            height: 280px;
+            z-index: 2;
+        }
+
+        .doctor-right .doctor-head {
+            width: 80px;
+            height: 80px;
+            background: #fdbcb4;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 180px;
+            left: 50px;
+        }
+
+        .doctor-right .doctor-hair {
+            width: 70px;
+            height: 40px;
+            background: #8b4513;
+            border-radius: 50px 50px 20px 20px;
+            position: absolute;
+            top: -15px;
+            left: 5px;
+        }
+
+        .doctor-right .doctor-mask {
+            width: 60px;
+            height: 25px;
+            background: #4fc3f7;
+            border-radius: 15px;
+            position: absolute;
+            bottom: 20px;
+            left: 10px;
+        }
+
+        .doctor-right .doctor-mask::before,
+        .doctor-right .doctor-mask::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: #333;
+            top: 2px;
+        }
+
+        .doctor-right .doctor-mask::before {
+            left: -8px;
+        }
+
+        .doctor-right .doctor-mask::after {
+            right: -8px;
+        }
+
+        .doctor-right .doctor-eyes {
+            position: absolute;
+            bottom: 35px;
+            left: 20px;
+            width: 40px;
+            height: 10px;
+        }
+
+        .doctor-right .doctor-eyes::before,
+        .doctor-right .doctor-eyes::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #333;
+            border-radius: 50%;
+        }
+
+        .doctor-right .doctor-eyes::before {
+            left: 5px;
+        }
+
+        .doctor-right .doctor-eyes::after {
+            right: 5px;
+        }
+
+        .doctor-right .doctor-body {
+            width: 100px;
+            height: 140px;
+            background: #ffffff;
+            border-radius: 15px 15px 0 0;
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+        }
+
+        .doctor-right .doctor-shirt {
+            width: 80px;
+            height: 120px;
+            background: #4fc3f7;
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+        }
+
+        .doctor-right .stethoscope {
+            width: 4px;
+            height: 60px;
+            background: #333;
+            position: absolute;
+            bottom: 60px;
+            left: 50px;
+            border-radius: 2px;
+        }
+
+        .doctor-right .stethoscope::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -10px;
+            left: -8px;
+        }
+
+        .doctor-right .syringe {
+            position: absolute;
+            bottom: 120px;
+            right: -10px;
+            width: 40px;
+            height: 8px;
+            background: #ffeb3b;
+            border-radius: 4px;
+            transform: rotate(-45deg);
+        }
+
+        .doctor-right .syringe::before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 3px;
+            background: #ff5722;
+            right: 40px;
+            top: 2.5px;
+            border-radius: 2px;
+        }
+
+        .doctor-right .syringe::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #666;
+            right: 67px;
+            top: 2px;
+            border-radius: 50%;
+        }
+
+        /* Corona Virus - Top Right */
+        .corona-virus {
+            position: absolute;
+            top: 30px;
+            right: 80px;
+            width: 80px;
+            height: 80px;
+            background: #ff5722;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .corona-virus::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 20px;
+            width: 12px;
+            height: 12px;
+            background: #ff5722;
+            border-radius: 50%;
+        }
+
+        .corona-virus::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            background: #ff5722;
+            border-radius: 50%;
+        }
+
+        .corona-spikes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .corona-spikes::before,
+        .corona-spikes::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ff5722;
+            border-radius: 50%;
+        }
+
+        .corona-spikes::before {
+            top: 20px;
+            left: -8px;
+        }
+
+        .corona-spikes::after {
+            bottom: 20px;
+            right: -8px;
+        }
+
+        /* Warning Tapes */
+        .warning-tape {
+            position: absolute;
+            height: 50px;
+            background: repeating-linear-gradient(
+                45deg,
+                #ffeb3b,
+                #ffeb3b 30px,
+                #333 30px,
+                #333 40px
+            );
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+            letter-spacing: 2px;
+        }
+
+        .tape-left {
+            width: 300px;
+            top: 120px;
+            left: -50px;
+            transform: rotate(-15deg);
+        }
+
+        .tape-right {
+            width: 300px;
+            top: 180px;
+            right: -50px;
+            transform: rotate(15deg);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #ecf0f1;
+            margin-bottom: 30px;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Table Section */
+        .table-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .table-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .search-box {
+            padding: 12px 20px;
+            border: 2px solid #ecf0f1;
+            border-radius: 25px;
+            font-size: 14px;
+            width: 300px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        /* Table Styles */
+        .vaccination-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .vaccination-table th {
+            background: linear-gradient(135deg, #e91e63, #ad1457);
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .vaccination-table th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .vaccination-table th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .vaccination-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 14px;
+        }
+
+        .vaccination-table tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        .vaccination-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .vaccination-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        /* Vaccine Type Badges */
+        .vaccine-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .covaxin {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .covishield {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        /* Dose Badges */
+        .dose-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .dose-1st {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .dose-2nd {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .doctor-left, .doctor-right {
+                display: none;
+            }
+            
+            .search-box {
+                width: 100%;
+                margin-top: 10px;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #7f8c8d;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <!-- Corona Bands -->
+            <div class="corona-band" style="top: 50px; animation-delay: 0s;">Stay Safe - Wear Mask</div>
+            <div class="corona-band" style="top: 90px; animation-delay: 2.5s;">Get Vaccinated - Save Lives</div>
+
+            <!-- Left Doctor -->
+            <div class="doctor-left">
+                <div class="doctor-head">
+                    <div class="doctor-hair"></div>
+                    <div class="doctor-eyes"></div>
+                    <div class="doctor-mask"></div>
+                </div>
+                <div class="doctor-body">
+                    <div class="doctor-shirt"></div>
+                    <div class="stethoscope"></div>
+                </div>
+                <div class="syringe"></div>
+            </div>
+            
+            <!-- Right Doctor -->
+            <div class="doctor-right">
+                <div class="doctor-head">
+                    <div class="doctor-hair"></div>
+                    <div class="doctor-eyes"></div>
+                    <div class="doctor-mask"></div>
+                </div>
+                <div class="doctor-body">
+                    <div class="doctor-shirt"></div>
+                    <div class="stethoscope"></div>
+                </div>
+                <div class="syringe"></div>
+            </div>
+
+            <!-- Corona Virus -->
+            <div class="corona-virus">
+                <div class="corona-spikes"></div>
+            </div>
+
+            <!-- Warning Tapes -->
+            <div class="warning-tape tape-left">COVID-19</div>
+            <div class="warning-tape tape-right">COVID-19</div>
+
+            <div class="header-content">
+                <h1 class="main-title">COVID-19 VACCINATION DASHBOARD</h1>
+                <p class="subtitle">Tracking vaccination stats with a colorful theme 💉</p>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalVaccinated">0</div>
+                <div class="stat-label">Total Vaccinated</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="firstDose">0</div>
+                <div class="stat-label">First Dose</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="secondDose">0</div>
+                <div class="stat-label">Second Dose</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="covaxinCount">0</div>
+                <div class="stat-label">Covaxin</div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-section">
+            <div class="table-header">
+                <h2 class="table-title">Vaccination Records</h2>
+                <input type="text" class="search-box" id="searchInput" placeholder="Search patients...">
+            </div>
+            
+            <div id="loadingState" class="loading">
+                <div class="spinner"></div>
+                <p>Loading vaccination data...</p>
+            </div>
+
+            <table class="vaccination-table" id="vaccinationTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Patient Name</th>
+                        <th>Age</th>
+                        <th>State</th>
+                        <th>Gender</th>
+                        <th>Injection Type</th>
+                        <th>Date</th>
+                        <th>Dose No</th>
+                    </tr>
+                </thead>
+                <tbody id="vaccinationTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
